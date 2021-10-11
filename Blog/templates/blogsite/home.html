@@ -1,0 +1,40 @@
+{% extends 'blogsite/main.html'%}
+
+
+{% block content %}
+
+<style>
+    li a{
+        text-decoration: none;
+    }
+</style>
+
+<div class="container">
+    <h1>Post...</h1>
+
+    <ul>
+        {% for post in blogs %}
+            <li style="font-size: 20px; margin-top: 20px;">
+                <a href="{% url 'blog' post.id %}">{{post.title|title}}</a>--<small><a href="{% url 'categories' post.category|slugify%}">({{post.category}})</a></small>
+                {% if post.author.first_name %}
+                    --{{post.author.first_name|title}}
+                {% else %}
+                    --{{post.author|title}}
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    {%  if user.id == post.author.id%}
+                        --
+                        <small><a href="{% url 'update-post' post.id%}">(Edit)</a></small>--
+                        <small><a href="{% url 'delete-post' post.id%}">(Delete)</a></small>
+                    {% endif %}
+                {% endif %}
+                    <br>
+                <small>{{post.snippets}}</small>
+            </li>
+        {% empty %}
+            <li>No blogs available</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

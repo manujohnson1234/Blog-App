@@ -1,0 +1,38 @@
+{% extends 'blogsite/main.html'%}
+
+{% block title %}{{blog.title|title}}:{{blog.title_tag}}{% endblock %}
+
+{% block content %}
+ <div class="container">
+    <h1>{{blog.title|title}}</h1>
+
+    <small>By: {{blog.author}}--{{blog.posted}}</small>
+ </div>
+<hr>
+ <div class="container">
+     <div class="image-container">
+         <img src="{{blog.images.url}}" alt="">
+     </div>
+    <p>{{blog.body|safe}}</p>
+     {% if user.id == blog.author.id %}
+        <p><a href="{% url 'update-post' blog.id%}">update</a></p>
+     {% endif %}
+     <hr>
+    {% if request.user.is_authenticated %}
+     <form action="{% url 'like_post' blog.id%}" method="post">
+         {% csrf_token %}
+         {% if liked %}
+             <button type="submit" name="post_id" value="{{blog.id}}"
+                     class="btn btn-outline-warning">unlike</button>
+             -- <small>{{total_likes}}</small>
+         {% else %}
+            <button type="submit" name="post_id" value="{{blog.id}}"
+                 class="btn btn-outline-success">like</button>
+         -- <small>{{total_likes}}</small>
+         {% endif %}
+     </form>
+     {% endif %}
+     <br>
+     <br>
+ </div>
+{% endblock %}

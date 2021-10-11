@@ -1,0 +1,24 @@
+{% extends 'blogsite/main.html' %}
+
+{% block title %}edit post{% endblock %}
+
+{% block content %}
+
+
+
+<h2 style="font-family: 'Birthstone', cursive; font-size: 50px; text-align: center; text-shadow: 1px 0px black ;">Update Post</h2>
+{% if user.id == post.author.id %}
+<div class="container">
+    <div class="form-group">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.media}}
+            {{form.as_p}}
+            <input type="submit" value="Update" class="btn btn-outline-primary" style="padding-left: 20px; padding-right: 20px; margin-left: 40px; border-radius: 15px; margin-bottom: 20px;">
+        </form>
+    </div>
+</div>
+{% else %}
+    <h3 style="text-align: center">This page is not available for you</h3>
+{% endif %}
+{% endblock %}

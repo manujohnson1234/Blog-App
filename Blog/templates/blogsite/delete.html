@@ -1,0 +1,51 @@
+{% extends 'blogsite/main.html' %}
+
+{% block title %}delete post{% endblock %}
+
+{% block content %}
+<style>
+    .text-wrapper{
+        margin-left: 300px;
+        margin-top: 70px;
+        border: 1px solid indigo;
+        border-radius: 5px;
+        padding: 30px;
+        width: 50%;
+        background-color: indigo;
+    }
+    .text{
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .button{
+        display: inline;
+        margin-left: 160px;
+
+    }
+</style>
+
+
+<h2 style="font-family: 'Birthstone', cursive; font-size: 50px; text-align: center; text-shadow: 1px 0px black ;">Delete Post</h2>
+{% if user.id == post.author.id %}
+    <div class="container">
+        <div class="form-group">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="text-wrapper">
+                    <a href="{% url 'blogs'%}" style="text-decoration: none;"><- back</a>
+                    <div class="text">
+                    <p><strong>Are you sure to delete the post?</strong></p>
+                        <p>{{post.title|title}}</p>
+                    </div>
+                    <div class="button">
+                        <input type="submit" value="Delete" class="btn btn-danger" style="padding-left: 20px; padding-right: 20px; margin-left: 40px; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% else %}
+    <h3 style="text-align: center">This page is not available for you</h3>
+{% endif %}
+{% endblock %}
